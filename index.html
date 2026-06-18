@@ -1,760 +1,712 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bubble Buggy – The Estate's Premium Mobile Wash</title>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bubble Buggy — The estate's premium mobile car wash</title>
+<meta name="description" content="Bubble Buggy is the estate's premium mobile car wash. We come to your driveway — no queues, no driving. Book a wash in Sitari Country Estate." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   BUBBLE BUGGY — premium mobile car wash
+   Signature: the scroll IS the wash. A dirty Range Rover is
+   detailed to showroom-clean as you scroll, tracked by a
+   fixed WASH CYCLE gauge (01 Dusty → 04 Showroom).
+   ============================================================ */
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap"
-      rel="stylesheet"
-    />
+:root {
+  /* palette — cool night-detailing; warmth comes from the video */
+  --ink:        #070A0E;
+  --ink-soft:   #0E141B;
+  --foam:       #F3F8FB;
+  --mist:       #9DB0BE;
+  --mist-dim:   #6A7B88;
+  --water:      #2F87D8;
+  --water-deep: #11456E;
+  --wa:         #25D366;
+  --line:       rgba(255,255,255,0.10);
+  --glass:      rgba(13,19,26,0.55);
 
-    <link rel="stylesheet" href="bubble.css" />
-  </head>
+  /* motion */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --t-fast: 0.18s;
+  --t-base: 0.4s;
+  --t-slow: 0.8s;
+}
 
-  <body>
-    <nav class="nav">
-      <a href="#home" class="logo">
-        <span>Bubble</span><span class="b2">Buggy</span
-        ><span class="dot"></span>
-      </a>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body { overflow-x: hidden; }
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background: var(--ink);
+  color: var(--foam);
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+::selection { background: var(--water); color: #fff; }
 
-      <div class="nav-links">
-        <a class="nav-link" href="#why">Why Us</a>
-        <a class="nav-link" href="#services">Packages</a>
-        <a class="nav-link" href="#gallery">Gallery</a>
+/* ---------- Scroll-scrub video background (the signature) ---------- */
+#video-bg { position: fixed; inset: 0; z-index: -10; background: #05070A; }
+#video-bg canvas, #video-bg video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+/* vignette + tint so type stays legible over any frame */
+#video-bg .scrim {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(5,7,10,0.72) 0%, rgba(5,7,10,0.15) 26%, rgba(5,7,10,0.15) 64%, rgba(5,7,10,0.85) 100%),
+    radial-gradient(120% 80% at 50% 40%, transparent 40%, rgba(5,7,10,0.55) 100%);
+}
+
+#particles { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; opacity: 0.6; }
+
+/* ---------- WASH CYCLE gauge ---------- */
+.cycle { position: fixed; left: 2.25rem; top: 50%; transform: translateY(-50%); z-index: 30; pointer-events: none; }
+.cycle-cap { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--mist-dim); margin-bottom: 1.1rem; writing-mode: vertical-rl; transform: rotate(180deg); position: absolute; left: -1.6rem; top: 0; }
+.cycle-list { list-style: none; display: flex; flex-direction: column; gap: 1.55rem; border-left: 1px solid var(--line); padding-left: 1.05rem; position: relative; }
+.cycle-fill { position: absolute; left: -1px; top: 0; width: 2px; height: 0%; background: linear-gradient(var(--water), var(--water-deep)); box-shadow: 0 0 12px rgba(47,135,216,0.7); transition: height 0.15s linear; }
+.cycle-item { display: flex; flex-direction: column; gap: 0.1rem; opacity: 0.4; transition: opacity var(--t-base) var(--ease-out), transform var(--t-base) var(--ease-out); transform: translateX(-2px); }
+.cycle-item .n { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--water); letter-spacing: 0.04em; }
+.cycle-item .s { font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mist); font-weight: 600; }
+.cycle-item.active { opacity: 1; transform: translateX(0); }
+.cycle-item.active .s { color: var(--foam); }
+
+/* mobile top progress bar */
+.cycle-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 60; background: rgba(255,255,255,0.06); display: none; }
+.cycle-bar i { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--water-deep), var(--water)); box-shadow: 0 0 10px rgba(47,135,216,0.8); }
+
+/* ---------- Nav ---------- */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.15rem 2.5rem;
+  transition: background var(--t-base) var(--ease-out), border-color var(--t-base) var(--ease-out), padding var(--t-base) var(--ease-out);
+  border-bottom: 1px solid transparent;
+}
+.nav.scrolled { background: rgba(7,10,14,0.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: var(--line); padding-top: 0.85rem; padding-bottom: 0.85rem; }
+.nav-left { display: flex; align-items: center; gap: 2.5rem; }
+.logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem; letter-spacing: -0.02em; text-decoration: none; display: inline-flex; align-items: center; color: var(--foam); }
+.logo .b2 { color: var(--water); }
+.logo .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--water); margin: 0 1px 2px 4px; box-shadow: 0 0 9px var(--water); }
+.nav-links { display: flex; align-items: center; gap: 1.75rem; }
+.nav-links a { font-size: 0.84rem; font-weight: 500; color: var(--mist); text-decoration: none; transition: color var(--t-fast) var(--ease-out); position: relative; }
+.nav-links a::after { content: ""; position: absolute; left: 0; bottom: -5px; height: 1px; width: 0; background: var(--water); transition: width var(--t-base) var(--ease-out); }
+.nav-links a:hover { color: var(--foam); }
+.nav-links a:hover::after { width: 100%; }
+
+/* ---------- Buttons (Appeal + anticipation/secondary) ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 0.86rem;
+  border-radius: 0.6rem; padding: 0.8rem 1.5rem; text-decoration: none; cursor: pointer;
+  border: 1px solid transparent; white-space: nowrap;
+  transition: transform var(--t-fast) var(--ease-out), box-shadow var(--t-base) var(--ease-out), background var(--t-base) var(--ease-out), border-color var(--t-base) var(--ease-out), color var(--t-base) var(--ease-out);
+}
+.btn svg { transition: transform var(--t-base) var(--ease-out); }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0) scale(0.97); }       /* anticipation / squash */
+.btn-water { background: var(--water); color: #fff; box-shadow: 0 8px 26px -12px var(--water); }
+.btn-water:hover { background: #3c97ea; box-shadow: 0 14px 34px -10px var(--water); }
+.btn-water:hover svg { transform: rotate(-8deg); }          /* secondary action */
+.btn-wa { background: var(--wa); color: #04231A; }
+.btn-wa:hover { background: #2ee06f; box-shadow: 0 14px 34px -12px var(--wa); }
+.btn-wa:hover svg { transform: scale(1.12); }               /* secondary action */
+.btn-ghost { background: rgba(255,255,255,0.04); border-color: var(--line); color: var(--foam); }
+.btn-ghost:hover { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.25); }
+.btn-lg { padding: 1rem 1.9rem; font-size: 0.95rem; }
+
+/* ---------- Content ---------- */
+#content { position: relative; z-index: 3; }
+.wrap { max-width: 78rem; margin: 0 auto; padding-left: 2.5rem; padding-right: 2.5rem; }
+
+/* eyebrow / section heads (structure encodes content) */
+.eyebrow { font-family: 'Space Mono', monospace; font-size: 0.74rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--water); display: inline-flex; align-items: center; gap: 0.6rem; }
+.eyebrow::before { content: ""; width: 1.6rem; height: 1px; background: var(--water); opacity: 0.6; }
+.sec { padding: 8rem 0; }
+.sec-head { max-width: 42rem; margin: 0 auto 4rem; text-align: center; }
+.sec-head h2 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.9rem, 4.2vw, 3.25rem); line-height: 1.05; letter-spacing: -0.025em; margin-top: 1rem; }
+.sec-head p { color: var(--mist); margin-top: 1.1rem; font-size: 1.02rem; }
+
+/* ---------- Hero ---------- */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; text-align: center; padding: 0 1.5rem 4.5rem; position: relative; }
+.hero .inner { max-width: 56rem; display: flex; flex-direction: column; align-items: center; }
+.hero h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2.4rem, 6.4vw, 5.1rem); line-height: 1.0; letter-spacing: -0.035em; margin: 1.4rem 0; }
+.hero h1 .uw { position: relative; white-space: nowrap; color: var(--foam); }
+.hero h1 .uw svg { position: absolute; left: -2%; bottom: -0.14em; width: 104%; height: 0.36em; overflow: visible; color: var(--water); }
+.hero h1 .uw path { stroke-dasharray: 1; stroke-dashoffset: 1; pathLength: 1; }
+body.loaded .hero h1 .uw path { animation: draw 1s var(--ease-out) 1.05s forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.hero-pill { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.6rem 1.2rem; border: 1px solid var(--line); border-radius: 999px; background: rgba(7,10,14,0.4); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); font-size: 0.86rem; color: var(--foam); margin-bottom: 2rem; }
+.hero-pill .pin { color: var(--water); display: inline-flex; }
+.hero-ctas { display: flex; gap: 0.9rem; flex-wrap: wrap; justify-content: center; }
+.scroll-cue { position: absolute; bottom: 1.6rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: var(--mist-dim); }
+.scroll-cue span { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase; }
+.scroll-cue svg { width: 1.1rem; height: 1.1rem; animation: bob 1.8s var(--ease-in-out) infinite; }
+@keyframes bob { 0%,100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(5px); opacity: 1; } }
+
+/* hero staged entrance (Staging + Slow-out + Follow-through) */
+.rise { opacity: 0; transform: translateY(26px); filter: blur(7px); }
+body.loaded .rise { animation: rise 1s var(--ease-out) forwards; }
+@keyframes rise { to { opacity: 1; transform: none; filter: blur(0); } }
+.d1 { animation-delay: 0.15s; } .d2 { animation-delay: 0.3s; } .d3 { animation-delay: 0.45s; } .d4 { animation-delay: 0.6s; } .d5 { animation-delay: 0.75s; }
+
+/* ---------- Why (three pillars) ---------- */
+.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.pillar { background: var(--glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--line); border-radius: 1.1rem; padding: 2.4rem 2rem; transition: transform var(--t-base) var(--ease-out), border-color var(--t-base) var(--ease-out); }
+.pillar:hover { transform: translateY(-6px); border-color: rgba(47,135,216,0.4); }       /* Appeal */
+.pillar .ico { width: 3rem; height: 3rem; display: grid; place-items: center; border-radius: 0.85rem; background: rgba(47,135,216,0.12); color: var(--water); margin-bottom: 1.3rem; }
+.pillar .ico svg { width: 1.5rem; height: 1.5rem; }
+.pillar h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.3rem; letter-spacing: -0.01em; }
+.pillar p { color: var(--mist); font-size: 0.92rem; margin-top: 0.7rem; }
+
+/* ---------- Packages ---------- */
+.toggle { display: inline-flex; padding: 0.32rem; background: rgba(255,255,255,0.05); border: 1px solid var(--line); border-radius: 999px; margin: 0 auto 3rem; }
+.toggle button { font-family: inherit; font-weight: 600; font-size: 0.84rem; color: var(--mist); background: transparent; border: 0; cursor: pointer; padding: 0.6rem 1.4rem; border-radius: 999px; display: inline-flex; align-items: center; gap: 0.5rem; transition: color var(--t-base) var(--ease-out), background var(--t-base) var(--ease-out); }
+.toggle button svg { width: 15px; height: 15px; }
+.toggle button.on { color: #fff; background: var(--water); box-shadow: 0 6px 18px -10px var(--water); }
+.toggle-wrap { display: flex; }
+
+.cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 52rem; margin: 0 auto; }
+.card { position: relative; background: var(--glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--line); border-radius: 1.2rem; padding: 2.4rem; transition: transform var(--t-base) var(--ease-out); }
+.card:hover { transform: translateY(-6px); }
+.card.feat { border-color: rgba(47,135,216,0.55); background: linear-gradient(180deg, rgba(47,135,216,0.14), rgba(13,19,26,0.55)); }
+.card.feat::after { content: ""; position: absolute; inset: -1px; border-radius: 1.2rem; pointer-events: none; box-shadow: 0 0 0 1px rgba(47,135,216,0.4), 0 0 40px -14px var(--water); animation: pulse 4.5s var(--ease-in-out) infinite; }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 1px rgba(47,135,216,0.4), 0 0 36px -16px var(--water); } 50% { box-shadow: 0 0 0 1px rgba(47,135,216,0.65), 0 0 54px -8px var(--water); } }
+.card .badge { position: absolute; top: -0.7rem; left: 50%; transform: translateX(-50%); background: var(--water); color: #fff; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.32rem 0.85rem; border-radius: 999px; white-space: nowrap; }
+.card .name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.45rem; }
+.card .for { color: var(--mist); font-size: 0.84rem; margin-top: 0.3rem; }
+.card .price { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2.8rem; letter-spacing: -0.03em; margin-top: 1.4rem; line-height: 1; }
+.card .per { color: var(--mist-dim); font-family: 'Space Mono', monospace; font-size: 0.74rem; margin-top: 0.4rem; }
+.card .rule { height: 1px; background: var(--line); margin: 1.5rem 0; }
+.card ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.8rem; }
+.card li { display: flex; align-items: center; gap: 0.65rem; font-size: 0.9rem; color: var(--mist); }
+.card li svg { width: 1rem; height: 1rem; color: var(--water); flex-shrink: 0; }
+.card .btn { width: 100%; }
+
+/* bundles share .cards/.card; small extras */
+.was { color: var(--mist-dim); font-size: 0.82rem; text-decoration: line-through; }
+.bundle-note { text-align: center; color: var(--mist); max-width: 34rem; margin: 0 auto 2.5rem; font-size: 0.95rem; }
+.bundle-note b { color: var(--foam); }
+
+/* add-ons */
+.addons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; max-width: 52rem; margin: 2.5rem auto 0; }
+.addon { display: flex; align-items: center; gap: 1rem; background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: 0.9rem; padding: 1.15rem 1.4rem; transition: border-color var(--t-base) var(--ease-out); }
+.addon:hover { border-color: rgba(47,135,216,0.4); }
+.addon .ai { font-size: 1.5rem; }
+.addon .an { font-weight: 600; font-size: 0.94rem; }
+.addon .ad { color: var(--mist); font-size: 0.82rem; }
+.addons-cap { text-align: center; color: var(--mist-dim); font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; margin: 3.2rem 0 0; }
+
+/* ---------- Gallery ---------- */
+.gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.shot { position: relative; border-radius: 1rem; overflow: hidden; aspect-ratio: 4/3; }
+.shot img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s var(--ease-out); }
+.shot:hover img { transform: scale(1.07); }
+.shot figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 1.1rem; font-family: 'Space Mono', monospace; font-size: 0.74rem; letter-spacing: 0.08em; color: var(--foam); background: linear-gradient(transparent, rgba(5,7,10,0.85)); opacity: 0; transform: translateY(8px); transition: opacity var(--t-base) var(--ease-out), transform var(--t-base) var(--ease-out); }
+.shot:hover figcaption { opacity: 1; transform: none; }
+
+/* ---------- Final CTA (the showroom-clean payoff) ---------- */
+.final { min-height: 96vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 6rem 1.5rem; }
+.final .inner { max-width: 46rem; }
+.final h2 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2.2rem, 6vw, 4.6rem); line-height: 1.0; letter-spacing: -0.035em; }
+.final p { color: var(--mist); font-size: 1.1rem; margin: 1.2rem auto 2.4rem; max-width: 32rem; }
+.final .hero-ctas { justify-content: center; }
+
+/* ---------- Footer ---------- */
+.footer { position: relative; z-index: 3; background: rgba(7,10,14,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--line); padding: 4rem 0 2rem; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2.5rem; }
+.footer .logo { font-size: 1.4rem; }
+.footer-tag { color: var(--mist); font-size: 0.9rem; margin-top: 1rem; max-width: 24rem; }
+.footer-guarantee { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.4rem; font-size: 0.82rem; color: var(--water); font-weight: 600; }
+.footer h4 { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mist-dim); margin-bottom: 1.1rem; }
+.footer a { display: block; color: var(--mist); text-decoration: none; font-size: 0.9rem; margin-bottom: 0.65rem; width: fit-content; transition: color var(--t-fast) var(--ease-out); }
+.footer a:hover { color: var(--foam); }
+.footer-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem; margin-top: 3rem; padding-top: 1.6rem; border-top: 1px solid var(--line); color: var(--mist-dim); font-size: 0.78rem; }
+
+/* ---------- Reveal-on-scroll ---------- */
+.reveal { opacity: 0; transform: translateY(30px); filter: blur(6px); transition: opacity var(--t-slow) var(--ease-out), transform var(--t-slow) var(--ease-out), filter var(--t-slow) var(--ease-out); }
+.reveal.in { opacity: 1; transform: none; filter: blur(0); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1180px) { .cycle { display: none; } .cycle-bar { display: block; } }
+@media (max-width: 860px) {
+  .nav { padding: 1rem 1.3rem; }
+  .nav-links { display: none; }
+  .wrap { padding-left: 1.3rem; padding-right: 1.3rem; }
+  .sec { padding: 5rem 0; }
+  .sec-head { margin-bottom: 2.5rem; }
+  .hero { padding-bottom: 3.5rem; }
+  .hero-ctas { flex-direction: column; width: 100%; max-width: 22rem; }
+  .hero-ctas .btn { width: 100%; }
+  .pillars { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: 1fr; }
+  .addons { grid-template-columns: 1fr; }
+  .gallery { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 1.8rem; }
+}
+
+/* ---------- Reduced motion (quality floor) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+  .rise, .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
+  .hero h1 .uw path { stroke-dashoffset: 0 !important; }
+}
+
+/* focus visibility */
+:focus-visible { outline: 2px solid var(--water); outline-offset: 3px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<!-- Scroll-scrub video background -->
+<div id="video-bg">
+  <canvas id="video-canvas"></canvas>
+  <video id="video-el" muted playsinline preload="auto" crossorigin="anonymous" src="wash.mp4"></video>
+  <div class="scrim"></div>
+</div>
+
+<canvas id="particles"></canvas>
+
+<!-- WASH CYCLE gauge -->
+<aside class="cycle">
+  <span class="cycle-cap">Wash cycle</span>
+  <ol class="cycle-list" id="cycleList">
+    <li class="cycle-item active" data-stage="0"><span class="n">01</span><span class="s">Dusty</span></li>
+    <li class="cycle-item" data-stage="1"><span class="n">02</span><span class="s">Foam</span></li>
+    <li class="cycle-item" data-stage="2"><span class="n">03</span><span class="s">Rinse</span></li>
+    <li class="cycle-item" data-stage="3"><span class="n">04</span><span class="s">Showroom</span></li>
+    <div class="cycle-fill" id="cycleFill"></div>
+  </ol>
+</aside>
+<div class="cycle-bar"><i id="cycleBarFill"></i></div>
+
+<!-- Nav -->
+<nav class="nav" id="nav">
+  <div class="nav-left">
+    <a class="logo" href="#top">Bubble<span class="b2">Buggy</span><span class="dot"></span></a>
+    <div class="nav-links">
+      <a href="#why">Why us</a>
+      <a href="#packages">Packages</a>
+      <a href="#gallery">Gallery</a>
+    </div>
+  </div>
+  <a class="btn btn-water" href="https://www.getmebooked.co.za/book/bubblebuggy/" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="15" height="15"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Book now
+  </a>
+</nav>
+
+<div id="content">
+  <span id="top"></span>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="inner">
+      <p class="eyebrow rise d1">Mobile car wash · Sitari Country Estate</p>
+      <h1 class="rise d2">
+        Everyone's preferred
+        <span class="uw">car wash<svg viewBox="0 0 100 12" preserveAspectRatio="none" fill="none"><path d="M1 8 C 22 2, 44 2, 62 6 S 88 11, 99 4" stroke="currentColor" stroke-width="3" stroke-linecap="round" pathLength="1"/></svg></span>,
+        right in your driveway.
+      </h1>
+      <div class="hero-pill rise d3">
+        <span class="pin"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span>
+        We come to you — no queues, no driving, no hassle
       </div>
-
-      <div class="nav-right">
-        <span class="nav-phone"
-          ><a href="tel:+27000000000">+27 000 000 0000</a></span
-        >
-
-        <a
-          class="btn btn-book"
-          href="https://www.getmebooked.co.za/book/bubblebuggy/"
-          target="_blank"
-          rel="noopener"
-        >
-          <svg
-            width="13"
-            height="13"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-          >
-            <rect x="3" y="4" width="18" height="18" rx="2" />
-            <line x1="16" y1="2" x2="16" y2="6" />
-            <line x1="8" y1="2" x2="8" y2="6" />
-            <line x1="3" y1="10" x2="21" y2="10" />
-          </svg>
-          Book Now
+      <div class="hero-ctas rise d4">
+        <a class="btn btn-water btn-lg" href="https://www.getmebooked.co.za/book/bubblebuggy/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="17" height="17"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Book now
         </a>
-
-        <a
-          class="btn btn-wa"
-          href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20a%20wash."
-          target="_blank"
-          rel="noopener"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
-            />
-            <path
-              d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.118 1.532 5.845L.054 23.25a.75.75 0 0 0 .916.916l5.405-1.478A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.745 9.745 0 0 1-5.003-1.375l-.358-.213-3.716 1.015 1.015-3.716-.213-.358A9.745 9.745 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"
-            />
-          </svg>
-          WhatsApp
+        <a class="btn btn-wa btn-lg" href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20a%20wash." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.118 1.532 5.845L.054 23.25a.75.75 0 0 0 .916.916l5.405-1.478A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.745 9.745 0 0 1-5.003-1.375l-.358-.213-3.716 1.015 1.015-3.716-.213-.358A9.745 9.745 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
+          WhatsApp us
         </a>
       </div>
-    </nav>
+    </div>
+    <div class="scroll-cue rise d5">
+      <span>Scroll to wash</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+    </div>
+  </header>
 
-    <section class="hero" id="home">
-      <div class="hero-bg"></div>
-
-      <div class="hero-inner">
-        <div class="estate-tag">
-          📍 Estates we serve &nbsp;<span class="sep">|</span>&nbsp;
-          <span class="estates"> Sitari Country Estate &nbsp; </span>
-        </div>
-
-        <p class="hero-eyebrow">Mobile Car Wash</p>
-
-        <h1>Everyone's preferred<br /><em>car wash.</em></h1>
-
-        <p class="hero-sub">
-          Your neighbours will notice. Your car already has. We come to you no
-          queues, no driving, just a clean car waiting for you outside.
-        </p>
-
-        <div class="hero-ctas">
-          <div class="cta-col">
-            <a
-              class="btn btn-book lg"
-              href="https://www.getmebooked.co.za/book/bubblebuggy/"
-              target="_blank"
-              rel="noopener"
-            >
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-              >
-                <rect x="3" y="4" width="18" height="18" rx="2" />
-                <line x1="16" y1="2" x2="16" y2="6" />
-                <line x1="8" y1="2" x2="8" y2="6" />
-                <line x1="3" y1="10" x2="21" y2="10" />
-              </svg>
-              Book Now
-            </a>
-            <span class="fresha-note">Bookings via <b>GetMeBooked</b></span>
-          </div>
-
-          <a
-            class="btn btn-wa lg"
-            href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20a%20wash."
-            target="_blank"
-            rel="noopener"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
-              />
-              <path
-                d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.118 1.532 5.845L.054 23.25a.75.75 0 0 0 .916.916l5.405-1.478A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.745 9.745 0 0 1-5.003-1.375l-.358-.213-3.716 1.015 1.015-3.716-.213-.358A9.745 9.745 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"
-              />
-            </svg>
-            Book via WhatsApp
-          </a>
-
-          <a class="btn btn-outline lg" href="#services">View Packages</a>
-        </div>
-
-        <div class="hero-stats">
-          <div>
-            <div class="stat-val">100<span>+</span></div>
-            <div class="stat-lbl">Cars washed</div>
-          </div>
-          <div>
-            <div class="stat-val">1<span> estates</span></div>
-            <div class="stat-lbl">Currently serving</div>
-          </div>
-          <div>
-            <div class="stat-val">100<span>%</span></div>
-            <div class="stat-lbl">Eco Friendy</div>
-          </div>
-        </div>
+  <!-- Why -->
+  <section class="sec wrap" id="why">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Why Bubble Buggy</span>
+      <h2>The clean comes to you.</h2>
+      <p>Premium care, your driveway, zero effort. Here's what every wash gives you.</p>
+    </div>
+    <div class="pillars" id="pillars">
+      <div class="pillar reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+        <h3>Pure convenience</h3>
+        <p>From your driveway to your parking bay, we bring the wash to your doorstep. No detours, no queues, no driving.</p>
       </div>
-    </section>
-
-    <div class="rule"></div>
-
-    <section class="why" id="why">
-      <div class="sec-head fi">
-        <div class="lbl">Why Bubble Buggy</div>
-        <h2 class="sec-title">
-          Fast, reliable &amp; always ready<br />to make your ride flawless
-        </h2>
+      <div class="pillar reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
+        <h3>Fast &amp; flawless</h3>
+        <p>Premium soaps and professional kit deliver a showroom clean without the wait. In, out, spotless — every time.</p>
       </div>
-
-      <div class="feats">
-        <div class="feat fi">
-          <div class="feat-ico">📍</div>
-          <div class="feat-title">Pure Convenience</div>
-          <p class="feat-desc">
-            We come to you. From your driveway to your parking bay, we bring the
-            wash right to your doorstep no detours, no queues
-          </p>
-        </div>
-
-        <div class="feat fi">
-          <div class="feat-ico">✨</div>
-          <div class="feat-title">Fast &amp; Flawless</div>
-          <p class="feat-desc">
-            Premium soaps and professional equipment deliver a pro-level clean
-            without the wait. In and out, every single time.
-          </p>
-        </div>
-
-        <div class="feat fi">
-          <div class="feat-ico">🔄</div>
-          <div class="feat-title">Eco Friendy</div>
-          <p class="feat-desc">
-            We use eco friendly, safe cleaning products because we care about
-            your home, your family, and the environment
-          </p>
-        </div>
+      <div class="pillar reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3a9 9 0 1 0 9 9"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 4v5h-5"/></svg></div>
+        <h3>Eco-friendly</h3>
+        <p>Safe, biodegradable products that care for your car, your home, your family and the environment around the estate.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <div class="rule"></div>
-
-    <section class="services" id="services">
-      <div class="sec-head fi">
-        <div class="lbl">Our Packages</div>
-        <h2 class="sec-title">Packages built for every ride.</h2>
-        <p class="sec-sub">
-          All packages include our rewash guarantee because anything less than
-          flawless isn't good enough.
-        </p>
-      </div>
-
-      <div class="pkg-toggle-wrap fi">
-        <div
-          class="pkg-toggle"
-          role="tablist"
-          aria-label="Switch between packages and bundles"
-        >
-          <button
-            class="toggle-btn active"
-            data-view="packages"
-            role="tab"
-            aria-selected="true"
-            aria-controls="pkgsView"
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.2"
-            >
-              <path
-                d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"
-              />
-              <rect x="9" y="11" width="14" height="10" rx="2" />
-            </svg>
-            Packages
-          </button>
-          <button
-            class="toggle-btn"
-            data-view="bundles"
-            role="tab"
-            aria-selected="false"
-            aria-controls="bundlesView"
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.2"
-            >
-              <path d="M20 12V22H4V12" />
-              <path d="M22 7H2v5h20V7z" />
-              <path d="M12 22V7" />
-              <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
-              <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
-            </svg>
-            Bundles
-          </button>
-        </div>
-      </div>
-      <div id="pkgsView" role="tabpanel" aria-labelledby="tab-packages">
-        <div class="pkgs" id="pkgsGrid"></div>
-      </div>
-
-      <div
-        id="bundlesView"
-        style="display: none"
-        role="tabpanel"
-        aria-labelledby="tab-bundles"
-      >
-        <div class="bundle-wrap">
-          <div class="bundle-header fi">
-            <div class="bundle-tag-pill">
-              <span class="bundle-tag-icon">🎁</span>
-              <span>Buy a bundle &amp; save</span>
-            </div>
-            <div class="bundle-header-line"></div>
-            <p class="bundle-sub">
-              Pre-purchase 3 washes and save <strong>R50</strong> — use them
-              anytime, any wash.
-            </p>
-          </div>
-
-          <div class="bundles">
-            <div class="bundle-card fi">
-              <div class="bundle-save-badge">Save R50</div>
-              <div class="bundle-wash-name">The Bubble Club</div>
-              <div class="bundle-wash-tag">
-                Sedans, hatchbacks &amp; compact SUVs
-              </div>
-              <div class="bundle-pricing">
-                <div class="bundle-credits">
-                  <span class="bundle-credits-num">3</span>
-                  <span class="bundle-credits-lbl">washes</span>
-                </div>
-                <div class="bundle-prices">
-                  <div class="bundle-was">was <s>R525</s></div>
-                  <div class="bundle-now">R475</div>
-                  <div class="bundle-per">R158 per wash</div>
-                </div>
-              </div>
-              <div class="bundle-bar"></div>
-              <ul class="bundle-perks">
-                <li>3 × Full Exterior & Interior Car Wash</li>
-                <li>Use credits at any time</li>
-                <li>Client Satisfaction Guaranteed on Every Visit</li>
-              </ul>
-              <a
-                class="btn btn-bundle"
-                href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20buy%20The%20Bubble%20Club%20bundle%20(3%20washes)."
-                target="_blank"
-                rel="noopener"
-              >
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
-                  />
-                  <path
-                    d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.118 1.532 5.845L.054 23.25a.75.75 0 0 0 .916.916l5.405-1.478A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.745 9.745 0 0 1-5.003-1.375l-.358-.213-3.716 1.015 1.015-3.716-.213-.358A9.745 9.745 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"
-                  />
-                </svg>
-                Grab this bundle
-              </a>
-            </div>
-
-            <div class="bundle-card bundle-card--featured fi">
-              <div class="bundle-save-badge">Save R50</div>
-              <div class="bundle-wash-name">The Buggy Club</div>
-              <div class="bundle-wash-tag">SUVs, vans, bakkies &amp; 4x4s</div>
-              <div class="bundle-pricing">
-                <div class="bundle-credits">
-                  <span class="bundle-credits-num">3</span>
-                  <span class="bundle-credits-lbl">washes</span>
-                </div>
-                <div class="bundle-prices">
-                  <div class="bundle-was">was <s>R600</s></div>
-                  <div class="bundle-now">R550</div>
-                  <div class="bundle-per">R183 per wash</div>
-                </div>
-              </div>
-              <div class="bundle-bar"></div>
-              <ul class="bundle-perks">
-                <li>3 × full exterior wash</li>
-                <li>Use credits at any time</li>
-                <li>Client Satisfaction Guaranteed on Every Visit</li>
-              </ul>
-              <a
-                class="btn btn-bundle btn-bundle--aqua"
-                href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20buy%20The%20Buggy%20Club%20bundle%20(3%20washes)."
-                target="_blank"
-                rel="noopener"
-              >
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
-                  />
-                  <path
-                    d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.118 1.532 5.845L.054 23.25a.75.75 0 0 0 .916.916l5.405-1.478A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.745 9.745 0 0 1-5.003-1.375l-.358-.213-3.716 1.015 1.015-3.716-.213-.358A9.745 9.745 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"
-                  />
-                </svg>
-                Grab this bundle
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="addons-section fi">
-        <div class="addons-header">
-          <div class="lbl">Extra Add-Ons</div>
-          <p class="addons-sub">
-            Enhance your wash with premium extras just tick what you'd like
-            added.
-          </p>
-        </div>
-
-        <div class="addons-grid">
-          <div class="addon-item">
-            <div class="addon-card">
-              <div class="addon-icon-wrap">🛞</div>
-              <div class="addon-info">
-                <div class="addon-name">Tire polish &amp; waxing</div>
-                <div class="addon-desc">
-                  Deep shine and UV protection on all four tyres
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="addon-item">
-            <div class="addon-card">
-              <div class="addon-icon-wrap">💧</div>
-              <div class="addon-info">
-                <div class="addon-name">Windscreen rain repellent</div>
-                <div class="addon-desc">
-                  Water repellent coating for crystal clear visibility
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="rule"></div>
-
-    <section class="gallery" id="gallery">
-      <div class="sec-head fi">
-        <div class="lbl">Before &amp; After</div>
-        <h2 class="sec-title">Real results, real cars.</h2>
-        <p class="sec-sub">See the Bubble Buggy difference</p>
-      </div>
-
-      <div class="gallery-tip">
-        <svg
-          width="12"
-          height="12"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="8" x2="12" y2="12" />
-          <line x1="12" y1="16" x2="12.01" y2="16" />
-        </svg>
-      </div>
-
-      <div class="g-grid" id="galGrid"></div>
-    </section>
-
-    <footer class="footer">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-logo">
-            Bubble<span class="b2">Buggy</span
-            ><span
-              style="
-                display: inline-block;
-                width: 6px;
-                height: 6px;
-                background: var(--aqua);
-                border-radius: 50%;
-                margin: 0 2px 3px;
-                box-shadow: 0 0 7px var(--aqua);
-              "
-            ></span>
-          </div>
-          <p class="footer-tagline">
-            The estate's most trusted mobile car wash. We come to you, every
-            time, with the care your car deserves.
-          </p>
-        </div>
-
-        <div class="footer-col">
-          <h4>Contact</h4>
-          <a class="footer-phone" href="tel:+27000000000">+27 000 000 0000</a>
-        </div>
-
-        <div class="footer-col">
-          <h4>Quick Links</h4>
-          <div class="footer-links">
-            <a href="#why">Why Bubble Buggy</a>
-            <a href="#services">Packages</a>
-            <a href="#gallery">Gallery</a>
-            <a
-              href="https://www.getmebooked.co.za/book/bubblebuggy/"
-              target="_blank"
-              rel="noopener"
-              >Book on GetMeBooked ↗</a
-            >
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <span class="footer-copy"
-          >© 2025 Bubble Buggy. All rights reserved.</span
-        >
-        <span class="footer-copy">Built for the estate. 🫧</span>
-      </div>
-    </footer>
-
-    <div class="mob-bar">
-      <a
-        class="btn btn-book"
-        href="https://www.getmebooked.co.za/book/bubblebuggy/"
-        target="_blank"
-        rel="noopener"
-      >
-        <svg
-          width="13"
-          height="13"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-        >
-          <rect x="3" y="4" width="18" height="18" rx="2" />
-          <line x1="16" y1="2" x2="16" y2="6" />
-          <line x1="8" y1="2" x2="8" y2="6" />
-          <line x1="3" y1="10" x2="21" y2="10" />
-        </svg>
-        Book Now
-      </a>
-
-      <a
-        class="btn btn-wa"
-        href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20a%20wash."
-        target="_blank"
-        rel="noopener"
-      >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
-          />
-          <path
-            d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.118 1.532 5.845L.054 23.25a.75.75 0 0 0 .916.916l5.405-1.478A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.745 9.745 0 0 1-5.003-1.375l-.358-.213-3.716 1.015 1.015-3.716-.213-.358A9.745 9.745 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"
-          />
-        </svg>
-        WhatsApp
-      </a>
+  <!-- Packages -->
+  <section class="sec wrap" id="packages">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Our packages</span>
+      <h2>Built for every ride.</h2>
+      <p>Every wash includes our rewash guarantee — anything less than flawless isn't good enough.</p>
     </div>
 
-    <script>
-      /* ─────────────────────────────────────────
-         ✏️ GLOBAL SETTINGS — edit these two lines
-      ───────────────────────────────────────── */
-      const WA = "27000000000"; // Your WhatsApp number (no + or spaces)
-      const FRESHA = "https://www.getmebooked.co.za/book/bubblebuggy/"; // Your booking URL
+    <div class="toggle-wrap reveal" style="justify-content:center;">
+      <div class="toggle" role="tablist" aria-label="Packages or bundles">
+        <button class="on" data-view="single" role="tab" aria-selected="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/></svg>
+          Single washes
+        </button>
+        <button data-view="bundle" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+          3-wash bundles
+        </button>
+      </div>
+    </div>
 
-      /* ─────────────────────────────────────────
-         ✏️ PACKAGES — Updated prices: The Bubble R175, The Full Buggy R200
-         Fields: name, tag, price, note, featured (bool), badge (optional), features (array)
-      ───────────────────────────────────────── */
-      const PACKAGES = [
-        {
-          name: "The Bubble",
-          tag: "Sedans, hatchbacks & compact SUVs",
-          price: "R180", // ← Updated from R160
-          note: "per wash",
-          featured: false,
-          features: [
-            "Full exterior wash",
-            "Wheel & rim clean",
-            "Windows",
-            "Rewash guaranteed",
-          ],
-        },
-        {
-          name: "The Full Buggy",
-          tag: "SUVs, vans, bakkies & 4x4s",
-          price: "R200", // ← Updated from R180
-          note: "per wash",
-          featured: true, // Adds highlighted border + gradient background
-          badge: "Most Popular", // Shown as pill badge at top of card
-          features: [
-            "Full exterior wash",
-            "Wheel & rim clean",
-            "Windows",
-            "Rewash guaranteed",
-          ],
-        },
-      ];
+    <!-- single -->
+    <div id="view-single">
+      <div class="cards">
+        <div class="card reveal">
+          <div class="name">The Bubble</div>
+          <div class="for">Sedans, hatchbacks &amp; compact SUVs</div>
+          <div class="price">R180</div>
+          <div class="per">per wash</div>
+          <div class="rule"></div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Full exterior wash</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Wheel &amp; rim clean</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Windows in &amp; out</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Rewash guaranteed</li>
+          </ul>
+          <a class="btn btn-ghost" href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20The%20Bubble." target="_blank" rel="noopener">Book The Bubble</a>
+        </div>
+        <div class="card feat reveal">
+          <div class="badge">Most popular</div>
+          <div class="name">The Full Buggy</div>
+          <div class="for">SUVs, vans, bakkies &amp; 4x4s</div>
+          <div class="price">R200</div>
+          <div class="per">per wash</div>
+          <div class="rule"></div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Full exterior wash</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Wheel &amp; rim clean</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Windows in &amp; out</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Rewash guaranteed</li>
+          </ul>
+          <a class="btn btn-water" href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20The%20Full%20Buggy." target="_blank" rel="noopener">Book The Full Buggy</a>
+        </div>
+      </div>
+    </div>
 
-      /* ─────────────────────────────────────────
-         ✏️ GALLERY — Car wash focused images.
-            Replace src URLs with your own photos.
-            Set an item to null to render a placeholder tile instead.
-      ───────────────────────────────────────── */
-      const GALLERY_IMAGES = [
-        {
-          src: "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=600&q=80&auto=format&fit=crop",
-          label: "Foam Soak",
-        },
-        {
-          src: "https://unsplash.com/photos/a-man-washing-a-car-with-a-sponge-phP5Qa0CauQ?w=600&q=80&auto=format&fit=crop",
-          label: "Hand Wash Detail",
-        },
-        {
-          src: "https://images.unsplash.com/photo-1601362840469-51e4d8d58785?w=600&q=80&auto=format&fit=crop",
-          label: "Wheel & Rim Clean",
-        },
-        {
-          src: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=600&q=80&auto=format&fit=crop",
-          label: "Rinse Down",
-        },
-        {
-          src: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&auto=format&fit=crop",
-          label: "Foam Treatment",
-        },
-        {
-          src: "https://images.unsplash.com/photo-1605515298946-d664b2afd2f4?w=600&q=80&auto=format&fit=crop",
-          label: "Showroom Finish",
-        },
-      ];
+    <!-- bundle -->
+    <div id="view-bundle" style="display:none;">
+      <p class="bundle-note">Pre-purchase 3 washes and save <b>R50</b>. Use the credits anytime, on any wash.</p>
+      <div class="cards">
+        <div class="card">
+          <div class="badge">Save R50</div>
+          <div class="name">The Bubble Club</div>
+          <div class="for">Sedans, hatchbacks &amp; compact SUVs</div>
+          <div class="price">R475</div>
+          <div class="per"><span class="was">R525</span> &nbsp;·&nbsp; R158 per wash</div>
+          <div class="rule"></div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>3 × full exterior &amp; interior wash</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Use credits anytime</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Satisfaction guaranteed every visit</li>
+          </ul>
+          <a class="btn btn-ghost" href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20buy%20The%20Bubble%20Club%20bundle%20(3%20washes)." target="_blank" rel="noopener">Grab this bundle</a>
+        </div>
+        <div class="card feat">
+          <div class="badge">Save R50</div>
+          <div class="name">The Buggy Club</div>
+          <div class="for">SUVs, vans, bakkies &amp; 4x4s</div>
+          <div class="price">R550</div>
+          <div class="per"><span class="was">R600</span> &nbsp;·&nbsp; R183 per wash</div>
+          <div class="rule"></div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>3 × full exterior wash</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Use credits anytime</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Satisfaction guaranteed every visit</li>
+          </ul>
+          <a class="btn btn-water" href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20buy%20The%20Buggy%20Club%20bundle%20(3%20washes)." target="_blank" rel="noopener">Grab this bundle</a>
+        </div>
+      </div>
+    </div>
 
-      /* ══════════════════════════════════════════════
-         RENDER LOGIC — no edits needed below this line
-      ══════════════════════════════════════════════ */
+    <p class="addons-cap reveal">Finish with extras</p>
+    <div class="addons">
+      <div class="addon reveal"><span class="ai">🛞</span><div><div class="an">Tyre polish &amp; wax</div><div class="ad">Deep shine and UV protection on all four tyres.</div></div></div>
+      <div class="addon reveal"><span class="ai">💧</span><div><div class="an">Windscreen rain repellent</div><div class="ad">Water-repellent coating for crystal-clear visibility.</div></div></div>
+    </div>
+  </section>
 
-      // SVG icon strings reused in package cards
-      const WA_SVG = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.118 1.532 5.845L.054 23.25a.75.75 0 0 0 .916.916l5.405-1.478A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.745 9.745 0 0 1-5.003-1.375l-.358-.213-3.716 1.015 1.015-3.716-.213-.358A9.745 9.745 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>`;
-      const CAL_SVG = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
+  <!-- Gallery -->
+  <section class="sec wrap" id="gallery">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Before &amp; after</span>
+      <h2>Real results, real cars.</h2>
+      <p>A look at the Bubble Buggy finish.</p>
+    </div>
+    <div class="gallery">
+      <figure class="shot reveal"><img src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=700&q=80&auto=format&fit=crop" alt="Foam soak" loading="lazy"/><figcaption>Foam soak</figcaption></figure>
+      <figure class="shot reveal"><img src="https://images.unsplash.com/photo-1601362840469-51e4d8d58785?w=700&q=80&auto=format&fit=crop" alt="Wheel and rim clean" loading="lazy"/><figcaption>Wheel &amp; rim clean</figcaption></figure>
+      <figure class="shot reveal"><img src="https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=700&q=80&auto=format&fit=crop" alt="Rinse down" loading="lazy"/><figcaption>Rinse down</figcaption></figure>
+      <figure class="shot reveal"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80&auto=format&fit=crop" alt="Foam treatment" loading="lazy"/><figcaption>Foam treatment</figcaption></figure>
+      <figure class="shot reveal"><img src="https://images.unsplash.com/photo-1605515298946-d664b2afd2f4?w=700&q=80&auto=format&fit=crop" alt="Showroom finish" loading="lazy"/><figcaption>Showroom finish</figcaption></figure>
+      <figure class="shot reveal"><img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=700&q=80&auto=format&fit=crop" alt="Detail shine" loading="lazy"/><figcaption>Detail shine</figcaption></figure>
+    </div>
+  </section>
 
-      // ── Render package cards into #pkgsGrid ──
-      const pkgsGrid = document.getElementById("pkgsGrid");
-      PACKAGES.forEach((p) => {
-        const msg = encodeURIComponent(
-          `Hi Bubble Buggy! I\u2019d like to book \u201c${p.name}\u201d. What\u2019s your next available slot?`,
-        );
-        const badge = p.badge ? `<div class="pkg-badge">${p.badge}</div>` : "";
-        const items = p.features.map((f) => `<li>${f}</li>`).join("");
-        pkgsGrid.insertAdjacentHTML(
-          "beforeend",
-          `<div class="pkg${p.featured ? " featured" : ""} fi">
-            ${badge}
-            <div class="pkg-name">${p.name}</div>
-            <div class="pkg-tag">${p.tag}</div>
-            <div class="pkg-price">${p.price}</div>
-            <div class="pkg-note">${p.note}</div>
-            <div class="pkg-bar"></div>
-            <ul class="pkg-feats">${items}</ul>
-          </div>`,
-        );
-      });
+  <!-- Final CTA -->
+  <section class="final">
+    <div class="inner reveal">
+      <span class="eyebrow" style="justify-content:center;">04 · Showroom</span>
+      <h2 style="margin-top:1rem;">Your driveway,<br/>freshly detailed.</h2>
+      <p>Pick a slot and we'll bring the wash to you. Spotless car, zero effort — that's the whole idea.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-water btn-lg" href="https://www.getmebooked.co.za/book/bubblebuggy/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="17" height="17"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Book now
+        </a>
+        <a class="btn btn-wa btn-lg" href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20a%20wash." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.118 1.532 5.845L.054 23.25a.75.75 0 0 0 .916.916l5.405-1.478A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+          WhatsApp us
+        </a>
+      </div>
+    </div>
+  </section>
 
-      // ── Render gallery tiles into #galGrid ──
-      const galGrid = document.getElementById("galGrid");
-      GALLERY_IMAGES.forEach((item) => {
-        if (!item) {
-          // Null entry → placeholder dashed tile
-          galGrid.insertAdjacentHTML(
-            "beforeend",
-            `<div class="g-empty">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(0,212,184,.45)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span>Your photo<br/>goes here</span>
-            </div>`,
-          );
-        } else {
-          // Real image tile with hover overlay and label
-          galGrid.insertAdjacentHTML(
-            "beforeend",
-            `<div class="g-cell">
-              <img src="${item.src}" alt="${item.label}" loading="lazy"/>
-              <div class="g-overlay"><span class="g-lbl">${item.label}</span></div>
-            </div>`,
-          );
-        }
-      });
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="logo">Bubble<span class="b2">Buggy</span><span class="dot"></span></div>
+          <p class="footer-tag">The estate's most trusted mobile car wash. We come to you, every time, with the care your car deserves.</p>
+          <div class="footer-guarantee">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3z"/><polyline points="9 12 11 14 15 10"/></svg>
+            Rewash guarantee on every wash
+          </div>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <a href="tel:+27000000000">+27 000 000 0000</a>
+          <a href="https://wa.me/27000000000" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+        <div>
+          <h4>Explore</h4>
+          <a href="#why">Why Bubble Buggy</a>
+          <a href="#packages">Packages</a>
+          <a href="#gallery">Gallery</a>
+          <a href="https://www.getmebooked.co.za/book/bubblebuggy/" target="_blank" rel="noopener">Book on GetMeBooked ↗</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Bubble Buggy. All rights reserved.</span>
+        <span>Built for the estate. 🫧</span>
+      </div>
+    </div>
+  </footer>
+</div>
 
-      /* ──────────────────────────────────────────────
-         TOGGLE LOGIC
-         Reads [data-view] on toggle buttons and shows/hides
-         #pkgsView / #bundlesView without page reload.
-         When bundlesView is first revealed, .fi elements within
-         it receive .vis to trigger their fade-in animations.
-      ────────────────────────────────────────────── */
-      const toggleBtns = document.querySelectorAll(".toggle-btn");
-      const pkgsView = document.getElementById("pkgsView");
-      const bundlesView = document.getElementById("bundlesView");
+<script>
+(function () {
+  'use strict';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Track whether bundles have been animated yet
-      let bundlesAnimated = false;
+  /* ---------------- scroll-scrub video ---------------- */
+  var VIDEO_URL = 'wash.mp4';
+  var canvas = document.getElementById('video-canvas');
+  var videoEl = document.getElementById('video-el');
+  var ctx = canvas.getContext('2d');
+  var frames = [], framesReady = false, lastIdx = -1, seeking = false;
 
-      function showView(targetView) {
-        // Update button states
-        toggleBtns.forEach((btn) => {
-          const isActive = btn.dataset.view === targetView;
-          btn.classList.toggle("active", isActive);
-          btn.setAttribute("aria-selected", isActive);
+  function resizeCanvas() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w = Math.round(window.innerWidth * dpr);
+    var h = Math.round(window.innerHeight * dpr);
+    if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+    lastIdx = -1;
+  }
+
+  function bounds() {
+    var vh = window.innerHeight;
+    return { start: vh * 0.5, end: document.documentElement.scrollHeight - vh };
+  }
+  function progress() {
+    var b = bounds(), range = b.end - b.start;
+    if (range <= 0) return 0;
+    return Math.max(0, Math.min(1, (window.scrollY - b.start) / range));
+  }
+  function draw(frame) {
+    var cw = canvas.width, ch = canvas.height;
+    var s = Math.max(cw / frame.width, ch / frame.height);
+    var dw = frame.width * s, dh = frame.height * s;
+    ctx.drawImage(frame, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+  }
+
+  async function extractFrames() {
+    try {
+      var res = await fetch(VIDEO_URL, { mode: 'cors' });
+      var url = URL.createObjectURL(await res.blob());
+      var v = document.createElement('video');
+      v.muted = true; v.playsInline = true; v.crossOrigin = 'anonymous'; v.preload = 'auto'; v.src = url;
+      await new Promise(function (ok, no) { v.onloadedmetadata = ok; v.onerror = no; setTimeout(no, 15000); });
+      var scale = Math.min(1, 1280 / v.videoWidth);
+      var sw = Math.round(v.videoWidth * scale), sh = Math.round(v.videoHeight * scale);
+      var count = Math.max(40, Math.min(120, Math.round(v.duration * 24)));
+      for (var i = 0; i < count; i++) {
+        v.currentTime = (i / (count - 1)) * (v.duration - 0.05);
+        await new Promise(function (ok, no) {
+          var on = function () { v.removeEventListener('seeked', on); ok(); };
+          v.addEventListener('seeked', on); setTimeout(function () { v.removeEventListener('seeked', on); no(); }, 3000);
         });
-
-        if (targetView === "packages") {
-          // Fade out bundles view, fade in packages view
-          bundlesView.style.display = "none";
-          pkgsView.style.display = "";
-          // Reset transition for re-entry
-          pkgsView.style.opacity = "0";
-          pkgsView.style.transform = "translateY(10px)";
-          requestAnimationFrame(() => {
-            pkgsView.style.transition =
-              "opacity 0.32s ease, transform 0.32s ease";
-            requestAnimationFrame(() => {
-              pkgsView.style.opacity = "1";
-              pkgsView.style.transform = "none";
-            });
-          });
-        } else {
-          // Fade out packages view, fade in bundles view
-          pkgsView.style.display = "none";
-          bundlesView.style.display = "";
-          bundlesView.style.opacity = "0";
-          bundlesView.style.transform = "translateY(10px)";
-          requestAnimationFrame(() => {
-            bundlesView.style.transition =
-              "opacity 0.32s ease, transform 0.32s ease";
-            requestAnimationFrame(() => {
-              bundlesView.style.opacity = "1";
-              bundlesView.style.transform = "none";
-            });
-          });
-
-          // Animate .fi elements inside bundlesView on first reveal
-          if (!bundlesAnimated) {
-            bundlesAnimated = true;
-            bundlesView.querySelectorAll(".fi").forEach((el, i) => {
-              el.style.transitionDelay = `${i * 0.09}s`;
-              setTimeout(() => el.classList.add("vis"), 20);
-            });
-          }
-        }
+        frames.push(await createImageBitmap(v, { resizeWidth: sw, resizeHeight: sh }));
       }
+      if (frames.length) { framesReady = true; canvas.style.visibility = 'visible'; videoEl.style.display = 'none'; }
+      URL.revokeObjectURL(url);
+    } catch (e) { /* fall back to live seeking on the <video> */ }
+  }
 
-      // Attach click handlers to toggle buttons
-      toggleBtns.forEach((btn) => {
-        btn.addEventListener("click", () => showView(btn.dataset.view));
-      });
+  function videoTick() {
+    var p = progress();
+    if (framesReady && frames.length) {
+      var idx = Math.round(p * (frames.length - 1));
+      if (idx !== lastIdx) { lastIdx = idx; if (frames[idx]) draw(frames[idx]); }
+    } else if (videoEl.duration && isFinite(videoEl.duration) && videoEl.readyState >= 1) {
+      var target = p * videoEl.duration;
+      if (!seeking && Math.abs(videoEl.currentTime - target) > 0.001) { seeking = true; videoEl.currentTime = target; }
+    }
+    requestAnimationFrame(videoTick);
+  }
 
-      /* ──────────────────────────────────────────────
-         SCROLL FADE-IN (IntersectionObserver)
-         Watches .fi elements and adds .vis when in viewport.
-         Note: elements inside #bundlesView (display:none) are
-         handled separately by showView() above.
-      ────────────────────────────────────────────── */
-      const io = new IntersectionObserver(
-        (es) => {
-          es.forEach((e) => {
-            if (e.isIntersecting) {
-              e.target.classList.add("vis");
-              io.unobserve(e.target); // Only animate once
-            }
-          });
-        },
-        { threshold: 0.08 },
-      );
+  // prime first frame so the hero is never blank, even before extraction
+  function prime() { try { if (videoEl.readyState >= 2) videoEl.currentTime = 0.0001; } catch (e) {} }
+  videoEl.addEventListener('seeked', function () { seeking = false; });
+  videoEl.addEventListener('stalled', function () { seeking = false; });
+  videoEl.addEventListener('loadeddata', prime);
+  prime();
+  canvas.style.visibility = 'hidden';
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  requestAnimationFrame(videoTick);
+  extractFrames();
 
-      // Observe all .fi elements EXCEPT those inside #bundlesView
-      // (bundlesView starts hidden — IO cannot detect them)
-      document.querySelectorAll(".fi").forEach((el, i) => {
-        if (!el.closest("#bundlesView")) {
-          el.style.transitionDelay = `${(i % 5) * 0.08}s`;
-          io.observe(el);
+  /* ---------------- WASH CYCLE gauge ---------------- */
+  var items = Array.prototype.slice.call(document.querySelectorAll('.cycle-item'));
+  var fill = document.getElementById('cycleFill');
+  var barFill = document.getElementById('cycleBarFill');
+  var listEl = document.getElementById('cycleList');
+  function gauge() {
+    var p = progress();
+    var stage = Math.min(items.length - 1, Math.floor(p * items.length));
+    items.forEach(function (el, i) { el.classList.toggle('active', i <= stage); });
+    if (listEl) fill.style.height = (p * listEl.offsetHeight) + 'px';
+    barFill.style.width = (p * 100) + '%';
+    requestAnimationFrame(gauge);
+  }
+  requestAnimationFrame(gauge);
+
+  /* ---------------- nav frosted on scroll ---------------- */
+  var nav = document.getElementById('nav');
+  function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 40); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------------- reveal on scroll (stagger = follow-through) ---------------- */
+  if (reduce) {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          var sibs = Array.prototype.slice.call(e.target.parentNode.children).filter(function (c) { return c.classList.contains('reveal'); });
+          var i = sibs.indexOf(e.target);
+          e.target.style.transitionDelay = (Math.max(0, i) * 0.08) + 's';
+          e.target.classList.add('in');
+          io.unobserve(e.target);
         }
       });
-    </script>
-  </body>
-</html>
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  }
 
+  /* ---------------- packages toggle ---------------- */
+  var tBtns = document.querySelectorAll('.toggle button');
+  var vSingle = document.getElementById('view-single');
+  var vBundle = document.getElementById('view-bundle');
+  function fadeIn(el) {
+    el.style.opacity = 0; el.style.transform = 'translateY(10px)';
+    requestAnimationFrame(function () {
+      el.style.transition = 'opacity .35s var(--ease-out), transform .35s var(--ease-out)';
+      requestAnimationFrame(function () { el.style.opacity = 1; el.style.transform = 'none'; });
+    });
+  }
+  tBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      tBtns.forEach(function (x) { x.classList.remove('on'); x.setAttribute('aria-selected', 'false'); });
+      b.classList.add('on'); b.setAttribute('aria-selected', 'true');
+      var single = b.dataset.view === 'single';
+      vSingle.style.display = single ? '' : 'none';
+      vBundle.style.display = single ? 'none' : '';
+      if (!reduce) fadeIn(single ? vSingle : vBundle);
+    });
+  });
+
+  /* ---------------- particles (ambient mist) ---------------- */
+  var pc = document.getElementById('particles');
+  var px = pc.getContext('2d');
+  var dots = [];
+  function sizeP() { pc.width = window.innerWidth; pc.height = window.innerHeight; makeDots(); }
+  function makeDots() {
+    dots = [];
+    var n = Math.floor((pc.width * pc.height) / 16000);
+    for (var i = 0; i < n; i++) dots.push({ x: Math.random() * pc.width, y: Math.random() * pc.height, vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25, r: Math.random() * 1.4 + 0.4, o: Math.random() * 0.5 + 0.15 });
+  }
+  function drawDots() {
+    px.clearRect(0, 0, pc.width, pc.height);
+    for (var i = 0; i < dots.length; i++) {
+      var d = dots[i];
+      px.beginPath(); px.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      px.fillStyle = 'rgba(255,255,255,' + d.o + ')'; px.fill();
+    }
+  }
+  function stepDots() {
+    for (var i = 0; i < dots.length; i++) {
+      var d = dots[i]; d.x += d.vx; d.y += d.vy;
+      if (d.x < 0) d.x = pc.width; if (d.x > pc.width) d.x = 0;
+      if (d.y < 0) d.y = pc.height; if (d.y > pc.height) d.y = 0;
+    }
+    drawDots(); requestAnimationFrame(stepDots);
+  }
+  sizeP();
+  window.addEventListener('resize', sizeP);
+  if (reduce) drawDots(); else requestAnimationFrame(stepDots);
+
+  /* ---------------- ready (triggers hero entrance) ---------------- */
+  window.addEventListener('load', function () { document.body.classList.add('loaded'); });
+  if (document.readyState === 'complete') document.body.classList.add('loaded');
+})();
+</script>
+</body>
+</html>
