@@ -98,10 +98,10 @@ a { color: inherit; }
   display: flex; align-items: center; justify-content: space-between;
   padding: 1.15rem 2.5rem;
   transition: background var(--t-base) var(--ease-out), border-color var(--t-base) var(--ease-out), padding var(--t-base) var(--ease-out), box-shadow var(--t-base) var(--ease-out);
-  background: #181c1f;                            /* dark gray barrier bar across the top */
-  border-bottom: 1px solid rgba(226,240,239,0.12);
+  background: rgba(8,14,17,0.82); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
 }
-.nav.scrolled { background: rgba(8,14,17,0.74); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom-color: var(--line); padding-top: 0.8rem; padding-bottom: 0.8rem; box-shadow: var(--sh-2); }
+.nav.scrolled { padding-top: 0.8rem; padding-bottom: 0.8rem; box-shadow: var(--sh-2); }
 .nav-left { display: flex; align-items: center; gap: 2.5rem; }
 .logo { font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: 1.32rem; letter-spacing: -0.02em; text-decoration: none; display: inline-flex; align-items: center; color: var(--foam); }
 .logo .b2 { color: var(--gold); }
@@ -162,7 +162,7 @@ a { color: inherit; }
 .hero { min-height: 100svh; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 1.5rem 4.5rem; position: relative; cursor: none; }
 .hero a, .hero .btn, .hero button { cursor: pointer; }
 /* template layout: content vertically centred, then pulled up (the -mt-80 cue) */
-.hero-main { flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: space-between; position: relative; z-index: 2; padding: clamp(5.5rem, 13vh, 9rem) 0 clamp(4rem, 9vh, 6.5rem); }
+.hero-main { flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: clamp(1.25rem, 3.5vh, 2.5rem); position: relative; z-index: 2; padding: clamp(3rem, 9vh, 5rem) 0 clamp(4rem, 9vh, 6.5rem); }
 .hero-top, .hero-bottom { width: 100%; max-width: 60rem; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 2; }
 .hero .scroll-cue { z-index: 2; }
 
