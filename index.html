@@ -1,311 +1,447 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Bubble Buggy — The estate's premium mobile car wash</title>
-<meta name="description" content="Bubble Buggy is Sitari Country Estate's premium mobile car wash. We bring the showroom finish to your driveway — no queues, no driving, no hassle. Book a wash today." />
-<meta name="theme-color" content="#0A1216" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bubble Buggy — The estate's premium mobile car wash</title>
+  <meta name="description"
+    content="Bubble Buggy is Sitari Country Estate's premium mobile car wash. We bring the showroom finish to your driveway — no queues, no driving, no hassle. Book a wash today." />
+  <meta name="theme-color" content="#0A1216" />
 
-<!-- Open Graph -->
-<meta property="og:title" content="Bubble Buggy — The estate's premium mobile car wash" />
-<meta property="og:description" content="The clean comes to you. Premium care, your driveway, zero effort." />
-<meta property="og:type" content="website" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Bubble Buggy — The estate's premium mobile car wash" />
+  <meta property="og:description" content="The clean comes to you. Premium care, your driveway, zero effort." />
+  <meta property="og:type" content="website" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/styles.css?v=4" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css?v=6" />
 </head>
+
 <body>
 
-<!-- Scroll-scrub video background — the scroll IS the wash -->
-<div id="video-bg" aria-hidden="true">
-  <canvas id="video-canvas"></canvas>
-  <video id="video-el" muted playsinline preload="auto" crossorigin="anonymous" src="Video_wash.mp4" poster="images/hero-image.png"></video>
-  <div class="scrim"></div>
-  <div class="grain"></div>
-  <!-- hero backdrop: looping clip, sits above the scrim/grain so it shows
+  <!-- Scroll-scrub video background — the scroll IS the wash -->
+  <div id="video-bg" aria-hidden="true">
+    <canvas id="video-canvas"></canvas>
+    <video id="video-el" muted playsinline preload="auto" crossorigin="anonymous" src="12s_backloop.mp4"></video>
+    <div class="scrim"></div>
+    <div class="grain"></div>
+    <!-- hero backdrop: looping clip, sits above the scrim/grain so it shows
        unfiltered in the hero, then fades to the wash video on scroll -->
-  <video id="hero-poster" class="poster" src="hero_loop.mp4" poster="images/hero-image.png" autoplay muted loop playsinline preload="auto"></video>
-</div>
-
-<canvas id="particles" aria-hidden="true"></canvas>
-
-<!-- Nav -->
-<nav class="nav" id="nav">
-  <div class="nav-left">
-    <a class="logo" href="#top" aria-label="Bubble Buggy home">Bubble<span class="b2">Buggy</span><span class="dot"></span></a>
-    <div class="nav-links">
-      <a href="#why">Why us</a>
-      <a href="#packages">Packages</a>
-      <a href="#gallery">Gallery</a>
-    </div>
+    <video id="hero-poster" class="poster" src="hero_loop.mp4" poster="images/hero-image.png" autoplay muted loop
+      playsinline preload="auto"></video>
   </div>
-  <a class="btn btn-gold" href="https://www.getmebooked.co.za/book/bubblebuggy/" target="_blank" rel="noopener">
-    <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-    Book now
-  </a>
-</nav>
 
-<div id="content">
-  <span id="top"></span>
+  <canvas id="particles" aria-hidden="true"></canvas>
 
-  <!-- Hero -->
-  <header class="hero" id="hero">
-    <!-- The hero background IS the live scroll-scrub video. The attached photo
+  <!-- Nav -->
+  <nav class="nav" id="nav">
+    <div class="nav-left">
+      <a class="logo" href="#top" aria-label="Bubble Buggy home">Bubble<span class="b2">Buggy</span><span
+          class="dot"></span></a>
+      <div class="nav-links">
+        <a href="#why">Why us</a>
+        <a href="#packages">Packages</a>
+        <a href="#gallery">Gallery</a>
+      </div>
+    </div>
+    <a class="btn btn-gold" href="https://www.getmebooked.co.za/book/bubblebuggy/" target="_blank" rel="noopener">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3" y="4" width="18" height="18" rx="2" />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+      </svg>
+      Book now
+    </a>
+  </nav>
+
+  <div id="content">
+    <span id="top"></span>
+
+    <!-- Hero -->
+    <header class="hero" id="hero">
+      <!-- The hero background IS the live scroll-scrub video. The attached photo
          is the poster (the first frame); as you scroll it fades and hands off to
          the scroll-scrub wash video (the second frame onward). A procedural dust
          film on the ink canvas wipes away under the cursor to reveal the frame. -->
-    <div class="hero-reveal" id="heroReveal" aria-hidden="true">
-      <canvas class="hero-ink" id="heroInk"></canvas>
-      <div class="hero-reveal-scrim"></div>
-    </div>
-    <div class="hero-main">
-      <div class="hero-top">
-        <h1 class="hero-title rise d1">
-          <span class="line line-1">Showroom</span>
-          <span class="line line-2 chrome">finish.</span>
-        </h1>
+      <div class="hero-reveal" id="heroReveal" aria-hidden="true">
+        <canvas class="hero-ink" id="heroInk"></canvas>
+        <div class="hero-reveal-scrim"></div>
       </div>
-      <div class="hero-bottom">
-        <p class="hero-sub rise d2">Right in your driveway.<br />No queues, no driving, no hassle.</p>
-        <div class="hero-ctas rise d3">
-          <a class="btn btn-gold btn-pill magnet" href="https://www.getmebooked.co.za/book/bubblebuggy/" target="_blank" rel="noopener">
-            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <div class="hero-main">
+        <div class="hero-top">
+          <h1 class="hero-title rise d1">
+            <span class="line line-1">Showroom</span>
+            <span class="line line-2 chrome">finish.</span>
+          </h1>
+        </div>
+        <div class="hero-bottom">
+          <p class="hero-sub rise d2">Right in your driveway.<br />No queues, no driving, no hassle.</p>
+          <div class="hero-ctas rise d3">
+            <a class="btn btn-gold btn-pill magnet" href="https://www.getmebooked.co.za/book/bubblebuggy/"
+              target="_blank" rel="noopener">
+              <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              Book now
+            </a>
+            <a class="btn btn-wa btn-pill magnet"
+              href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20a%20wash."
+              target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+                <path
+                  d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.118 1.532 5.845L.054 23.25a.75.75 0 0 0 .916.916l5.405-1.478A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.745 9.745 0 0 1-5.003-1.375l-.358-.213-3.716 1.015 1.015-3.716-.213-.358A9.745 9.745 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z" />
+              </svg>
+              WhatsApp us
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-cue rise d4" aria-hidden="true">
+        <span>Scroll to wash</span>
+        <svg class="ic" viewBox="0 0 24 24">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </div>
+    </header>
+
+    <!-- Trust marquee -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Rewash guarantee</span><i>✦</i>
+        <span>We come to you</span><i>✦</i>
+        <span>Eco-friendly products</span><i>✦</i>
+        <span>Showroom finish</span><i>✦</i>
+        <span>Sitari Country Estate</span><i>✦</i>
+        <span>Rewash guarantee</span><i>✦</i>
+        <span>We come to you</span><i>✦</i>
+        <span>Eco-friendly products</span><i>✦</i>
+        <span>Showroom finish</span><i>✦</i>
+        <span>Sitari Country Estate</span><i>✦</i>
+      </div>
+    </div>
+
+    <!-- Why -->
+    <section class="sec wrap" id="why">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Why Bubble Buggy</span>
+        <h2>The clean comes to you.</h2>
+        <p>Premium care, your driveway, zero effort. Here's what every wash gives you.</p>
+      </div>
+      <div class="pillars">
+        <div class="pillar reveal">
+          <div class="itile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg></div>
+          <h3>Pure convenience</h3>
+          <p>From your driveway to your parking bay, we bring the wash to your doorstep. No detours, no queues, no
+            driving.</p>
+        </div>
+        <div class="pillar reveal">
+          <div class="itile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg></div>
+          <h3>Fast &amp; flawless</h3>
+          <p>Premium soaps and professional kit deliver a showroom clean without the wait. In, out, spotless — every
+            time.</p>
+        </div>
+        <div class="pillar reveal">
+          <div class="itile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+              <path d="M2 21c0-3 1.85-5.36 5.08-6" />
+            </svg></div>
+          <h3>Eco-friendly</h3>
+          <p>Safe, biodegradable products that care for your car, your home, your family and the environment around the
+            estate.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Packages -->
+    <section class="sec wrap" id="packages">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Our packages</span>
+        <h2>Built for every ride.</h2>
+        <p>Every wash includes our rewash guarantee — anything less than flawless isn't good enough.</p>
+      </div>
+
+      <div class="toggle-wrap reveal">
+        <div class="toggle" role="tablist" aria-label="Packages or bundles">
+          <button class="on" data-view="single" role="tab" aria-selected="true">
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2.69 17.66 8.35a8 8 0 1 1-11.31 0z" />
+            </svg>
+            Single washes
+          </button>
+          <button data-view="bundle" role="tab" aria-selected="false">
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 12V22H4V12" />
+              <path d="M22 7H2v5h20V7z" />
+              <path d="M12 22V7" />
+              <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+              <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
+            </svg>
+            3-wash bundles
+          </button>
+          <span class="toggle-glow" id="toggleGlow" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <!-- single -->
+      <div id="view-single">
+        <div class="cards">
+          <div class="card reveal">
+            <div class="name">The Bubble</div>
+            <div class="for">Sedans, hatchbacks &amp; compact SUVs</div>
+            <div class="price"><span class="cur">R</span>180</div>
+            <div class="per">per wash</div>
+            <div class="rule"></div>
+            <ul>
+              <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>Full exterior wash</li>
+              <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>Wheel &amp; rim clean</li>
+              <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>Windows in &amp; out</li>
+              <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>Rewash guaranteed</li>
+            </ul>
+            <a class="btn btn-ghost"
+              href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20The%20Bubble."
+              target="_blank" rel="noopener">Book The Bubble</a>
+          </div>
+          <div class="card feat reveal">
+            <div class="badge">Most booked</div>
+            <div class="name">The Full Buggy</div>
+            <div class="for">SUVs, vans, bakkies &amp; 4x4s</div>
+            <div class="price"><span class="cur">R</span>200</div>
+            <div class="per">per wash</div>
+            <div class="rule"></div>
+            <ul>
+              <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>Full exterior wash</li>
+              <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>Wheel &amp; rim clean</li>
+              <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>Windows in &amp; out</li>
+              <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>Rewash guaranteed</li>
+            </ul>
+            <a class="btn btn-gold"
+              href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20The%20Full%20Buggy."
+              target="_blank" rel="noopener">Book The Full Buggy</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- bundle -->
+      <div id="view-bundle" hidden>
+        <p class="bundle-note">Pre-purchase 3 washes and save <b>R50</b>. Use the credits anytime, on any wash.</p>
+        <div class="cards">
+          <div class="card">
+            <div class="badge">Save R50</div>
+            <div class="name">The Bubble Club</div>
+            <div class="for">Sedans, hatchbacks &amp; compact SUVs</div>
+            <div class="price"><span class="cur">R</span>475</div>
+            <div class="per"><span class="was">R525</span> &nbsp;·&nbsp; R158 per wash</div>
+            <div class="rule"></div>
+            <ul>
+              <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>3 × full exterior &amp; interior wash</li>
+              <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>Use credits anytime</li>
+              <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>Satisfaction guaranteed every visit</li>
+            </ul>
+            <a class="btn btn-ghost"
+              href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20buy%20The%20Bubble%20Club%20bundle%20(3%20washes)."
+              target="_blank" rel="noopener">Grab this bundle</a>
+          </div>
+          <div class="card feat">
+            <div class="badge">Save R50</div>
+            <div class="name">The Buggy Club</div>
+            <div class="for">SUVs, vans, bakkies &amp; 4x4s</div>
+            <div class="price"><span class="cur">R</span>550</div>
+            <div class="per"><span class="was">R600</span> &nbsp;·&nbsp; R183 per wash</div>
+            <div class="rule"></div>
+            <ul>
+              <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>3 × full exterior wash</li>
+              <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>Use credits anytime</li>
+              <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>Satisfaction guaranteed every visit</li>
+            </ul>
+            <a class="btn btn-gold"
+              href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20buy%20The%20Buggy%20Club%20bundle%20(3%20washes)."
+              target="_blank" rel="noopener">Grab this bundle</a>
+          </div>
+        </div>
+      </div>
+
+      <p class="addons-cap reveal">Finish with extras</p>
+      <div class="addons">
+        <div class="addon reveal">
+          <div class="itile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" />
+              <circle cx="12" cy="12" r="3" />
+              <path d="M12 3v3M12 18v3M3 12h3M18 12h3" />
+            </svg></div>
+          <div>
+            <div class="an">Tyre polish &amp; wax</div>
+            <div class="ad">Deep shine and UV protection on all four tyres.</div>
+          </div>
+        </div>
+        <div class="addon reveal">
+          <div class="itile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 4.8 7 3c-.29 1.8-1.14 3.13-2.29 4.06S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05Z" />
+              <path
+                d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97" />
+            </svg></div>
+          <div>
+            <div class="an">Windscreen rain repellent</div>
+            <div class="ad">Water-repellent coating for crystal-clear visibility.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="sec wrap" id="gallery">
+      <div class="sec-head reveal">
+        <span class="eyebrow">The craft</span>
+        <h2>Real results, real cars.</h2>
+        <p>A closer look at the Bubble Buggy finish — every stage of the wash.</p>
+      </div>
+      <div class="gallery">
+        <figure class="shot reveal"><img src="images/g-snowfoam.png"
+            alt="A snow-foam cannon blanketing a black Range Rover in thick foam at golden hour" loading="lazy" />
+          <figcaption><span class="num">01</span>Snow-foam cannon</figcaption>
+        </figure>
+        <figure class="shot reveal"><img src="images/g-mitt.png"
+            alt="A wash mitt gliding through deep foam across a clean black car panel" loading="lazy" />
+          <figcaption><span class="num">02</span>Foam &amp; mitt</figcaption>
+        </figure>
+        <figure class="shot reveal"><img src="images/g-wheel.png"
+            alt="A detailing brush cleaning a foamy alloy wheel and rim" loading="lazy" />
+          <figcaption><span class="num">03</span>Wheel &amp; rim</figcaption>
+        </figure>
+        <figure class="shot reveal"><img src="images/g-rinse.png"
+            alt="Water sheeting off a freshly rinsed black car panel in the sun" loading="lazy" />
+          <figcaption><span class="num">04</span>Rinse &amp; sheet</figcaption>
+        </figure>
+        <figure class="shot reveal"><img src="images/g-showroom.png"
+            alt="A showroom-clean black Range Rover parked in an estate driveway at golden hour" loading="lazy" />
+          <figcaption><span class="num">05</span>Showroom finish</figcaption>
+        </figure>
+        <figure class="shot reveal"><img src="images/g-glass.png"
+            alt="A microfibre cloth polishing the windscreen with water beading on the glass" loading="lazy" />
+          <figcaption><span class="num">06</span>Glass &amp; trim</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final">
+      <div class="inner reveal">
+        <span class="eyebrow">Ready when you are</span>
+        <h2>Your driveway,<br /><span class="chrome">freshly detailed.</span></h2>
+        <p>Pick a slot and we'll bring the wash to you. Spotless car, zero effort — that's the whole idea.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-gold btn-lg magnet" href="https://www.getmebooked.co.za/book/bubblebuggy/" target="_blank"
+            rel="noopener">
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
             Book now
           </a>
-          <a class="btn btn-wa btn-pill magnet" href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20a%20wash." target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.118 1.532 5.845L.054 23.25a.75.75 0 0 0 .916.916l5.405-1.478A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.745 9.745 0 0 1-5.003-1.375l-.358-.213-3.716 1.015 1.015-3.716-.213-.358A9.745 9.745 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
+          <a class="btn btn-wa btn-lg magnet"
+            href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20a%20wash."
+            target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+              <path
+                d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.118 1.532 5.845L.054 23.25a.75.75 0 0 0 .916.916l5.405-1.478A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z" />
+            </svg>
             WhatsApp us
           </a>
         </div>
       </div>
-    </div>
-    <div class="scroll-cue rise d4" aria-hidden="true">
-      <span>Scroll to wash</span>
-      <svg class="ic" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
-    </div>
-  </header>
+    </section>
 
-  <!-- Trust marquee -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>Rewash guarantee</span><i>✦</i>
-      <span>We come to you</span><i>✦</i>
-      <span>Eco-friendly products</span><i>✦</i>
-      <span>Showroom finish</span><i>✦</i>
-      <span>Sitari Country Estate</span><i>✦</i>
-      <span>Rewash guarantee</span><i>✦</i>
-      <span>We come to you</span><i>✦</i>
-      <span>Eco-friendly products</span><i>✦</i>
-      <span>Showroom finish</span><i>✦</i>
-      <span>Sitari Country Estate</span><i>✦</i>
-    </div>
-  </div>
-
-  <!-- Why -->
-  <section class="sec wrap" id="why">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Why Bubble Buggy</span>
-      <h2>The clean comes to you.</h2>
-      <p>Premium care, your driveway, zero effort. Here's what every wash gives you.</p>
-    </div>
-    <div class="pillars">
-      <div class="pillar reveal">
-        <div class="itile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
-        <h3>Pure convenience</h3>
-        <p>From your driveway to your parking bay, we bring the wash to your doorstep. No detours, no queues, no driving.</p>
-      </div>
-      <div class="pillar reveal">
-        <div class="itile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-        <h3>Fast &amp; flawless</h3>
-        <p>Premium soaps and professional kit deliver a showroom clean without the wait. In, out, spotless — every time.</p>
-      </div>
-      <div class="pillar reveal">
-        <div class="itile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg></div>
-        <h3>Eco-friendly</h3>
-        <p>Safe, biodegradable products that care for your car, your home, your family and the environment around the estate.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Packages -->
-  <section class="sec wrap" id="packages">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Our packages</span>
-      <h2>Built for every ride.</h2>
-      <p>Every wash includes our rewash guarantee — anything less than flawless isn't good enough.</p>
-    </div>
-
-    <div class="toggle-wrap reveal">
-      <div class="toggle" role="tablist" aria-label="Packages or bundles">
-        <button class="on" data-view="single" role="tab" aria-selected="true">
-          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.69 17.66 8.35a8 8 0 1 1-11.31 0z"/></svg>
-          Single washes
-        </button>
-        <button data-view="bundle" role="tab" aria-selected="false">
-          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-          3-wash bundles
-        </button>
-        <span class="toggle-glow" id="toggleGlow" aria-hidden="true"></span>
-      </div>
-    </div>
-
-    <!-- single -->
-    <div id="view-single">
-      <div class="cards">
-        <div class="card reveal">
-          <div class="name">The Bubble</div>
-          <div class="for">Sedans, hatchbacks &amp; compact SUVs</div>
-          <div class="price"><span class="cur">R</span>180</div>
-          <div class="per">per wash</div>
-          <div class="rule"></div>
-          <ul>
-            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Full exterior wash</li>
-            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Wheel &amp; rim clean</li>
-            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Windows in &amp; out</li>
-            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Rewash guaranteed</li>
-          </ul>
-          <a class="btn btn-ghost" href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20The%20Bubble." target="_blank" rel="noopener">Book The Bubble</a>
-        </div>
-        <div class="card feat reveal">
-          <div class="badge">Most popular</div>
-          <div class="name">The Full Buggy</div>
-          <div class="for">SUVs, vans, bakkies &amp; 4x4s</div>
-          <div class="price"><span class="cur">R</span>200</div>
-          <div class="per">per wash</div>
-          <div class="rule"></div>
-          <ul>
-            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Full exterior wash</li>
-            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Wheel &amp; rim clean</li>
-            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Windows in &amp; out</li>
-            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Rewash guaranteed</li>
-          </ul>
-          <a class="btn btn-gold" href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20The%20Full%20Buggy." target="_blank" rel="noopener">Book The Full Buggy</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- bundle -->
-    <div id="view-bundle" hidden>
-      <p class="bundle-note">Pre-purchase 3 washes and save <b>R50</b>. Use the credits anytime, on any wash.</p>
-      <div class="cards">
-        <div class="card">
-          <div class="badge">Save R50</div>
-          <div class="name">The Bubble Club</div>
-          <div class="for">Sedans, hatchbacks &amp; compact SUVs</div>
-          <div class="price"><span class="cur">R</span>475</div>
-          <div class="per"><span class="was">R525</span> &nbsp;·&nbsp; R158 per wash</div>
-          <div class="rule"></div>
-          <ul>
-            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>3 × full exterior &amp; interior wash</li>
-            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Use credits anytime</li>
-            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Satisfaction guaranteed every visit</li>
-          </ul>
-          <a class="btn btn-ghost" href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20buy%20The%20Bubble%20Club%20bundle%20(3%20washes)." target="_blank" rel="noopener">Grab this bundle</a>
-        </div>
-        <div class="card feat">
-          <div class="badge">Save R50</div>
-          <div class="name">The Buggy Club</div>
-          <div class="for">SUVs, vans, bakkies &amp; 4x4s</div>
-          <div class="price"><span class="cur">R</span>550</div>
-          <div class="per"><span class="was">R600</span> &nbsp;·&nbsp; R183 per wash</div>
-          <div class="rule"></div>
-          <ul>
-            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>3 × full exterior wash</li>
-            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Use credits anytime</li>
-            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Satisfaction guaranteed every visit</li>
-          </ul>
-          <a class="btn btn-gold" href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20buy%20The%20Buggy%20Club%20bundle%20(3%20washes)." target="_blank" rel="noopener">Grab this bundle</a>
-        </div>
-      </div>
-    </div>
-
-    <p class="addons-cap reveal">Finish with extras</p>
-    <div class="addons">
-      <div class="addon reveal">
-        <div class="itile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></div>
-        <div><div class="an">Tyre polish &amp; wax</div><div class="ad">Deep shine and UV protection on all four tyres.</div></div>
-      </div>
-      <div class="addon reveal">
-        <div class="itile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 4.8 7 3c-.29 1.8-1.14 3.13-2.29 4.06S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05Z"/><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"/></svg></div>
-        <div><div class="an">Windscreen rain repellent</div><div class="ad">Water-repellent coating for crystal-clear visibility.</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Gallery -->
-  <section class="sec wrap" id="gallery">
-    <div class="sec-head reveal">
-      <span class="eyebrow">The craft</span>
-      <h2>Real results, real cars.</h2>
-      <p>A closer look at the Bubble Buggy finish — every stage of the wash.</p>
-    </div>
-    <div class="gallery">
-      <figure class="shot reveal"><img src="images/g-snowfoam.png" alt="A snow-foam cannon blanketing a black Range Rover in thick foam at golden hour" loading="lazy"/><figcaption><span class="num">01</span>Snow-foam cannon</figcaption></figure>
-      <figure class="shot reveal"><img src="images/g-mitt.png" alt="A wash mitt gliding through deep foam across a clean black car panel" loading="lazy"/><figcaption><span class="num">02</span>Foam &amp; mitt</figcaption></figure>
-      <figure class="shot reveal"><img src="images/g-wheel.png" alt="A detailing brush cleaning a foamy alloy wheel and rim" loading="lazy"/><figcaption><span class="num">03</span>Wheel &amp; rim</figcaption></figure>
-      <figure class="shot reveal"><img src="images/g-rinse.png" alt="Water sheeting off a freshly rinsed black car panel in the sun" loading="lazy"/><figcaption><span class="num">04</span>Rinse &amp; sheet</figcaption></figure>
-      <figure class="shot reveal"><img src="images/g-showroom.png" alt="A showroom-clean black Range Rover parked in an estate driveway at golden hour" loading="lazy"/><figcaption><span class="num">05</span>Showroom finish</figcaption></figure>
-      <figure class="shot reveal"><img src="images/g-glass.png" alt="A microfibre cloth polishing the windscreen with water beading on the glass" loading="lazy"/><figcaption><span class="num">06</span>Glass &amp; trim</figcaption></figure>
-    </div>
-  </section>
-
-  <!-- Final CTA -->
-  <section class="final">
-    <div class="inner reveal">
-      <span class="eyebrow">04 · Showroom</span>
-      <h2>Your driveway,<br/><span class="chrome">freshly detailed.</span></h2>
-      <p>Pick a slot and we'll bring the wash to you. Spotless car, zero effort — that's the whole idea.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-gold btn-lg magnet" href="https://www.getmebooked.co.za/book/bubblebuggy/" target="_blank" rel="noopener">
-          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Book now
-        </a>
-        <a class="btn btn-wa btn-lg magnet" href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20a%20wash." target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.118 1.532 5.845L.054 23.25a.75.75 0 0 0 .916.916l5.405-1.478A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
-          WhatsApp us
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="wrap">
-      <div class="footer-grid">
-        <div>
-          <div class="logo">Bubble<span class="b2">Buggy</span><span class="dot"></span></div>
-          <p class="footer-tag">The estate's most trusted mobile car wash. We come to you, every time, with the care your car deserves.</p>
-          <div class="footer-guarantee">
-            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
-            Rewash guarantee on every wash
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="wrap">
+        <div class="footer-grid">
+          <div>
+            <div class="logo">Bubble<span class="b2">Buggy</span><span class="dot"></span></div>
+            <p class="footer-tag">The estate's most trusted mobile car wash. We come to you, every time, with the care
+              your car deserves.</p>
+            <div class="footer-guarantee">
+              <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
+                <path d="m9 12 2 2 4-4" />
+              </svg>
+              Rewash guarantee on every wash
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <a href="tel:+27000000000">+27 000 000 0000</a>
+            <a href="https://wa.me/27000000000" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+          <div class="footer-col">
+            <h4>Explore</h4>
+            <a href="#why">Why Bubble Buggy</a>
+            <a href="#packages">Packages</a>
+            <a href="#gallery">Gallery</a>
+            <a href="https://www.getmebooked.co.za/book/bubblebuggy/" target="_blank" rel="noopener">Book on GetMeBooked
+              ↗</a>
           </div>
         </div>
-        <div class="footer-col">
-          <h4>Contact</h4>
-          <a href="tel:+27000000000">+27 000 000 0000</a>
-          <a href="https://wa.me/27000000000" target="_blank" rel="noopener">WhatsApp</a>
-        </div>
-        <div class="footer-col">
-          <h4>Explore</h4>
-          <a href="#why">Why Bubble Buggy</a>
-          <a href="#packages">Packages</a>
-          <a href="#gallery">Gallery</a>
-          <a href="https://www.getmebooked.co.za/book/bubblebuggy/" target="_blank" rel="noopener">Book on GetMeBooked ↗</a>
+        <div class="footer-bottom">
+          <span>© <span id="year">2026</span> Bubble Buggy. All rights reserved.</span>
+          <span class="made">Built for the estate<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2.69 17.66 8.35a8 8 0 1 1-11.31 0z" />
+            </svg></span>
         </div>
       </div>
-      <div class="footer-bottom">
-        <span>© <span id="year">2026</span> Bubble Buggy. All rights reserved.</span>
-        <span class="made">Built for the estate<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.69 17.66 8.35a8 8 0 1 1-11.31 0z"/></svg></span>
-      </div>
-    </div>
-  </footer>
-</div>
+    </footer>
+  </div>
 
-<script src="js/main.js"></script>
+  <script src="js/main.js"></script>
 </body>
+
 </html>
