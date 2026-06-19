@@ -80,24 +80,18 @@
   requestAnimationFrame(videoTick);
   extractFrames();
 
-  /* ---------------- WASH CYCLE gauge ---------------- */
-  var items = Array.prototype.slice.call(document.querySelectorAll('.cycle-item'));
-  var fill = document.getElementById('cycleFill');
-  var barFill = document.getElementById('cycleBarFill');
-  var listEl = document.getElementById('cycleList');
-  function gauge() {
-    var p = progress();
-    var stage = Math.min(items.length - 1, Math.floor(p * items.length));
-    items.forEach(function (el, i) { el.classList.toggle('active', i <= stage); });
-    if (listEl) fill.style.height = (p * listEl.offsetHeight) + 'px';
-    barFill.style.width = (p * 100) + '%';
-    requestAnimationFrame(gauge);
-  }
-  requestAnimationFrame(gauge);
-
-  /* ---------------- nav frosted on scroll ---------------- */
+  /* ---------------- nav frosted on scroll + poster handoff ---------------- */
   var nav = document.getElementById('nav');
-  function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 40); }
+  var heroPoster = document.getElementById('hero-poster');
+  function onScroll() {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+    // The attached photo is the first frame; as you scroll it fades, handing off
+    // to the scroll-scrub wash video (the second frame onward).
+    if (heroPoster) {
+      var vh = window.innerHeight || 1;
+      heroPoster.style.opacity = Math.max(0, Math.min(1, 1 - window.scrollY / (vh * 0.6)));
+    }
+  }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 

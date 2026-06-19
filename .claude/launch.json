@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "static",
+      "name": "bubblebuggy",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "3210"],
-      "port": 3210
+      "runtimeArgs": ["-m", "http.server", "3217"],
+      "port": 3217
     }
   ]
 }

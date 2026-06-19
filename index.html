@@ -24,25 +24,15 @@
 <!-- Scroll-scrub video background — the scroll IS the wash -->
 <div id="video-bg" aria-hidden="true">
   <canvas id="video-canvas"></canvas>
-  <video id="video-el" muted playsinline preload="auto" crossorigin="anonymous" src="Video_wash.mp4"></video>
+  <video id="video-el" muted playsinline preload="auto" crossorigin="anonymous" src="Video_wash.mp4" poster="images/hero-image.png"></video>
   <div class="scrim"></div>
   <div class="grain"></div>
+  <!-- hero backdrop: looping clip, sits above the scrim/grain so it shows
+       unfiltered in the hero, then fades to the wash video on scroll -->
+  <video id="hero-poster" class="poster" src="hero_loop.mp4" poster="images/hero-image.png" autoplay muted loop playsinline preload="auto"></video>
 </div>
 
 <canvas id="particles" aria-hidden="true"></canvas>
-
-<!-- WASH CYCLE gauge — a real sequence: 01 Dusty → 04 Showroom, mapped to scroll -->
-<aside class="cycle" aria-hidden="true">
-  <span class="cycle-cap">Wash cycle</span>
-  <ol class="cycle-list" id="cycleList">
-    <li class="cycle-item active" data-stage="0"><span class="n">01</span><span class="s">Dusty</span></li>
-    <li class="cycle-item" data-stage="1"><span class="n">02</span><span class="s">Foam</span></li>
-    <li class="cycle-item" data-stage="2"><span class="n">03</span><span class="s">Rinse</span></li>
-    <li class="cycle-item" data-stage="3"><span class="n">04</span><span class="s">Showroom</span></li>
-    <div class="cycle-fill" id="cycleFill"></div>
-  </ol>
-</aside>
-<div class="cycle-bar" aria-hidden="true"><i id="cycleBarFill"></i></div>
 
 <!-- Nav -->
 <nav class="nav" id="nav">
@@ -65,34 +55,32 @@
 
   <!-- Hero -->
   <header class="hero" id="hero">
-    <!-- The hero background IS the live scroll-scrub video. A procedural dust
-         film is painted over it on the ink canvas; moving the cursor anywhere
-         across the hero wipes holes out of it to reveal the clean frame beneath.
-         The film also lifts as you scroll, handing off to the video wash. -->
+    <!-- The hero background IS the live scroll-scrub video. The attached photo
+         is the poster (the first frame); as you scroll it fades and hands off to
+         the scroll-scrub wash video (the second frame onward). A procedural dust
+         film on the ink canvas wipes away under the cursor to reveal the frame. -->
     <div class="hero-reveal" id="heroReveal" aria-hidden="true">
       <canvas class="hero-ink" id="heroInk"></canvas>
       <div class="hero-reveal-scrim"></div>
     </div>
-    <div class="inner">
-      <p class="eyebrow rise d1"><span class="dotpin"></span>Mobile car wash · Sitari Country Estate</p>
-      <h1 class="rise d2">
-        Everyone's preferred
-        <span class="chrome">car wash</span>,
-        right in your driveway.
-      </h1>
-      <div class="hero-pill rise d3">
-        <span class="pin"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
-        We come to you — no queues, no driving, no hassle
-      </div>
-      <div class="hero-ctas rise d4">
-        <a class="btn btn-gold btn-lg magnet" href="https://www.getmebooked.co.za/book/bubblebuggy/" target="_blank" rel="noopener">
-          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Book now
-        </a>
-        <a class="btn btn-wa btn-lg magnet" href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20a%20wash." target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.118 1.532 5.845L.054 23.25a.75.75 0 0 0 .916.916l5.405-1.478A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.745 9.745 0 0 1-5.003-1.375l-.358-.213-3.716 1.015 1.015-3.716-.213-.358A9.745 9.745 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
-          WhatsApp us
-        </a>
+    <div class="hero-main">
+      <div class="inner">
+        <p class="hero-label rise d1">Mobile car wash · Sitari Country Estate</p>
+        <h1 class="hero-title rise d2">
+          <span class="line line-1">Showroom</span>
+          <span class="line line-2 chrome">finish.</span>
+        </h1>
+        <p class="hero-sub rise d3">A showroom finish, right in your driveway — no queues, no driving, no hassle.</p>
+        <div class="hero-ctas rise d4">
+          <a class="btn btn-gold btn-pill magnet" href="https://www.getmebooked.co.za/book/bubblebuggy/" target="_blank" rel="noopener">
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Book now
+          </a>
+          <a class="btn btn-wa btn-pill magnet" href="https://wa.me/27000000000?text=Hi%20Bubble%20Buggy!%20I%27d%20like%20to%20book%20a%20wash." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.118 1.532 5.845L.054 23.25a.75.75 0 0 0 .916.916l5.405-1.478A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.745 9.745 0 0 1-5.003-1.375l-.358-.213-3.716 1.015 1.015-3.716-.213-.358A9.745 9.745 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
+            WhatsApp us
+          </a>
+        </div>
       </div>
     </div>
     <div class="scroll-cue rise d5" aria-hidden="true">
@@ -139,27 +127,6 @@
         <div class="itile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg></div>
         <h3>Eco-friendly</h3>
         <p>Safe, biodegradable products that care for your car, your home, your family and the environment around the estate.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- The difference — draggable before/after -->
-  <section class="sec wrap" id="difference">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Dusty → Showroom</span>
-      <h2>Drag to see the difference.</h2>
-      <p>Same car, same driveway. One Bubble Buggy visit between them.</p>
-    </div>
-    <div class="ba reveal" id="ba">
-      <img class="ba-after" src="images/clean_range_front_page.png" alt="The same Range Rover, washed to a showroom-clean finish" />
-      <div class="ba-before" id="baBefore">
-        <img src="images/hero_dirty.jpg" alt="A dust- and mud-covered Range Rover before its wash" />
-      </div>
-      <div class="ba-tagL" aria-hidden="true">Before</div>
-      <div class="ba-tagR" aria-hidden="true">After</div>
-      <div class="ba-handle" id="baHandle" role="slider" aria-label="Reveal the clean car" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
-        <span class="ba-line"></span>
-        <span class="ba-grip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 7-5 5 5 5"/><path d="m15 7 5 5-5 5"/></svg></span>
       </div>
     </div>
   </section>
