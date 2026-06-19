@@ -1,0 +1,12 @@
+{
+  "name": "bubble-buggy",
+  "version": "1.0.0",
+  "description": "Bubble Buggy - Sitari Country Estate's premium mobile car wash website",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx http-server -p 3000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
